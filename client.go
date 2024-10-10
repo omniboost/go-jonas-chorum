@@ -188,7 +188,6 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 		soapRequest := RequestEnvelope{
 			Namespaces: []xml.Attr{
 				{Name: xml.Name{Space: "", Local: "xmlns:soap"}, Value: "http://schemas.xmlsoap.org/soap/envelope/"},
-				{Name: xml.Name{Space: "", Local: "xmlns:win"}, Value: "https://winpm.com/"},
 			},
 			Header: req.RequestHeaderInterface(),
 			Body: Body{

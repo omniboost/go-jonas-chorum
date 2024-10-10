@@ -106,19 +106,21 @@ func (r MMESRequest) NewRequestBody() MMESRequestBody {
 }
 
 type MMESRequestBody struct {
-	XMLName  xml.Name `xml:"win:theRequest"`
+	XMLName    xml.Name            `xml:"https://winpm.com/ MMES"`
+	TheRequest MMESRequestContents `xml:"theRequest"`
+}
+
+type MMESRequestContents struct {
 	Contents any `xml:",any"`
 }
 
-func (b MMESRequestBody) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	start.Name.Local = "win:theRequest"
+func (b MMESRequestContents) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	start.Name.Local = "theRequest"
 
 	contents, err := xml.Marshal(b.Contents)
 	if err != nil {
 		return errors.WithStack(err)
 	}
-
-	return e.EncodeElement(contents, start)
 
 	// first gzip b.Contents
 	var buf bytes.Buffer

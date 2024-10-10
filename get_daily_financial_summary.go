@@ -26,7 +26,7 @@ func (c *Client) NewGetDailyFinancialSummaryRequest() GetDailyFinancialSummaryRe
 type GetDailyFinancialSummaryRequest struct {
 	client *Client
 
-	XMLName    xml.Name          `xml:"win:theRequest"`
+	XMLName    xml.Name          `xml:"Content"`
 	Header     RequestHeader     `xml:"Header"`
 	Parameters RequestParameters `xml:"Parameters"`
 	Body       struct {
@@ -39,7 +39,7 @@ func (r GetDailyFinancialSummaryRequest) Do() (GetDailyFinancialSummaryResponseB
 
 	soapAction := r.client.NewMMESRequest()
 	soapActionBody := soapAction.RequestBody()
-	soapActionBody.Contents = r
+	soapActionBody.TheRequest.Contents = r
 
 	resp, err := soapAction.Do()
 	if err != nil {
