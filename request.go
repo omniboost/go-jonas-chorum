@@ -9,6 +9,7 @@ type Request interface {
 	RequestHeaderInterface() interface{}
 	RequestBodyInterface() interface{}
 	URL() *url.URL
+	SOAPAction() string
 }
 
 type QueryParams interface {

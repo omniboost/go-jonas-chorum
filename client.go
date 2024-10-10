@@ -187,10 +187,8 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 	if req.RequestBodyInterface() != nil {
 		soapRequest := RequestEnvelope{
 			Namespaces: []xml.Attr{
-				{Name: xml.Name{Space: "", Local: "xmlns:xsi"}, Value: "http://www.w3.org/2001/XMLSchema-instance"},
-				{Name: xml.Name{Space: "", Local: "xmlns:xsd"}, Value: "http://www.w3.org/2001/XMLSchema"},
 				{Name: xml.Name{Space: "", Local: "xmlns:soap"}, Value: "http://schemas.xmlsoap.org/soap/envelope/"},
-				{Name: xml.Name{Space: "", Local: "xmlns:rlx"}, Value: "http://tempuri.org/RLXSOAP19/RLXSOAP19"},
+				{Name: xml.Name{Space: "", Local: "xmlns:win"}, Value: "https://winpm.com/"},
 			},
 			Header: req.RequestHeaderInterface(),
 			Body: Body{
@@ -232,7 +230,7 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 	r.Header.Add("Content-Type", fmt.Sprintf("%s; charset=%s", c.MediaType(), c.Charset()))
 	r.Header.Add("Accept", c.MediaType())
 	r.Header.Add("User-Agent", c.UserAgent())
-	// r.Header.Add("SOAPAction", fmt.Sprintf("http://tempuri.org/RLXSOAP19/RLXSOAP19/%s", req.SOAPAction()))
+	r.Header.Add("SOAPAction", req.SOAPAction())
 
 	return r, nil
 }
@@ -341,30 +339,6 @@ func (c *Client) Unmarshal(r io.Reader, vv []interface{}, optionalVv []interface
 	}
 
 	return nil
-}
-
-func (c *Client) SessionID() (string, error) {
-	// fetch a new token if it isn't set already
-	if c.sessionID == "" {
-		var err error
-		c.sessionID, err = c.NewSessionID()
-		if err != nil {
-			return "", err
-		}
-	}
-
-	return c.sessionID, nil
-}
-
-func (c *Client) NewSessionID() (string, error) {
-	req := c.NewLoginRequest()
-	resp, err := req.Do()
-	if err != nil {
-		return "", err
-	}
-
-	return resp.SessionID, nil
-
 }
 
 // CheckResponse checks the Client response for errors, and returns them if

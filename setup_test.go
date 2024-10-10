@@ -23,6 +23,11 @@ func TestMain(m *testing.M) {
 	debug := os.Getenv("DEBUG")
 	var baseURL *url.URL
 
+	client = jonas_chorum.NewClient(nil)
+	if debug != "" {
+		client.SetDebug(true)
+	}
+
 	client.SetPartnerToken(partnerToken)
 	client.SetHotelCode(hotelCode)
 	client.SetPartnerCode(partnerCode)
@@ -32,11 +37,6 @@ func TestMain(m *testing.M) {
 		if err != nil {
 			log.Fatal(err)
 		}
-	}
-
-	client = jonas_chorum.NewClient(nil)
-	if debug != "" {
-		client.SetDebug(true)
 	}
 
 	if baseURL != nil {

@@ -8,7 +8,7 @@ type RequestEnvelope struct {
 	XMLName    xml.Name
 	Namespaces []xml.Attr `xml:"-"`
 
-	Header Header `xml:"soap:Header"`
+	Header SOAPHeader `xml:"soap:Header"`
 	Body   Body   `xml:"soap:Body"`
 }
 
@@ -16,7 +16,7 @@ type ResponseEnvelope struct {
 	XMLName    xml.Name
 	Namespaces []xml.Attr `xml:"-"`
 
-	Header Header `xml:"Header"`
+	Header SOAPHeader `xml:"Header"`
 	Body   Body   `xml:"Body"`
 }
 
@@ -37,6 +37,4 @@ type Body struct {
 	ActionBody interface{} `xml:",any"`
 }
 
-type Header interface{}
-
-type ActionBody interface{}
+type SOAPHeader interface{}
