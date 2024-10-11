@@ -5,6 +5,7 @@ import (
 	"compress/gzip"
 	"encoding/base64"
 	"encoding/xml"
+	"log"
 	"net/http"
 	"net/url"
 
@@ -161,7 +162,26 @@ func (r *MMESRequest) NewResponseBody() *MMESRequestResponseBody {
 type MMESRequestResponseBody struct {
 	XMLName xml.Name `xml:"MMESResponse"`
 
-	MMESResult string `xml:"MMESResult"`
+	MMESResult MMESResult `xml:"MMESResult"`
+}
+
+type MMESResult string
+
+func (r MMESResult) Decode() (*gzip.Reader, error) {
+	// base64decode
+	b, err := base64.StdEncoding.DecodeString(string(r))
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	// gzip decode
+	buf := bytes.NewBuffer(b)
+	reader, err := gzip.NewReader(buf)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	return reader, errors.WithStack(err)
 }
 
 // func (rb MMESRequestResponseBody) ExceptionBlock() ExceptionBlock {
@@ -190,5 +210,30 @@ func (r *MMESRequest) Do() (MMESRequestResponseBody, error) {
 
 	responseBody := r.NewResponseBody()
 	_, err = r.client.Do(req, responseBody)
-	return *responseBody, err
+	if err != nil {
+		log.Print("1")
+		return *responseBody, errors.WithStack(err)
+	}
+
+	// now check MMESResult for error
+	reader, err := responseBody.MMESResult.Decode()
+	if err != nil {
+		return *responseBody, errors.WithStack(err)
+	}
+
+	bodyFailure := BodyFailure{}
+	err = r.client.Unmarshal(reader, []any{}, []any{&bodyFailure})
+
+	// if bodyFailure has an error: use that for error return
+	if bodyFailure.Error() != "" {
+		return *responseBody, errors.WithStack(bodyFailure)
+	}
+
+	// if the unmarshalling returned an error, return that one
+	if err != nil {
+		return *responseBody, errors.WithStack(err)
+	}
+
+	// everything should be fine
+	return *responseBody, nil
 }

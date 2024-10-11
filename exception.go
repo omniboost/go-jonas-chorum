@@ -1,6 +1,9 @@
 package jonas_chorum
 
-import "fmt"
+import (
+	"encoding/xml"
+	"fmt"
+)
 
 // <?xml version="1.0" encoding="utf-8"?>
 // <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -23,4 +26,45 @@ type ExceptionBlock struct {
 
 func (eb ExceptionBlock) Error() string {
 	return fmt.Sprintf("%d: %s", eb.ExceptionCode, eb.ExceptionDescription)
+}
+
+// <Content>
+//   <Header>
+//     <BucketType>ERROR</BucketType>
+//     <APIType>NA</APIType>
+//     <APIVersion>NA</APIVersion>
+//     <SecurityToken>NA</SecurityToken>
+//     <Internal>NA</Internal>
+//     <CustomDataA></CustomDataA>
+//     <CustomDataB></CustomDataB>
+//     <CustomDataC></CustomDataC>
+//     <CustomDataD></CustomDataD>
+//   </Header>
+//   <Parameters />
+//   <Body>
+//     <Status>Failure</Status>
+//     <StatusNote>Hotel Disallowed</StatusNote>
+//   </Body>
+// </Content>
+
+type BodyFailure struct {
+	XMLName    xml.Name     `xml:"Content"`
+	Header     JCHeader     `xml:"Header"`
+	Parameters JCParameters `xml:"Parameters"`
+	Body       struct {
+		Status     string `xml:"Status"`
+		StatusNote string `xml:"StatusNote"`
+	} `xml:"Body"`
+}
+
+func (b BodyFailure) Error() string {
+	if b.Header.BucketType == "ERROR" || b.Body.Status == "Failure" {
+		return fmt.Sprintf("%s: %s", b.Header.BucketType, b.Body.StatusNote)
+	}
+
+	if b.Parameters.Error != "" {
+		return fmt.Sprintf("%s: %s", b.Header.BucketType, b.Parameters.Error)
+	}
+
+	return ""
 }

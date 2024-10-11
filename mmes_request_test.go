@@ -7,20 +7,10 @@ import (
 )
 
 func TestMMESRequest(t *testing.T) {
-	// req := client.NewMMESRequest()
-	// resp, err := req.Do()
-	// if err != nil {
-	// 	t.Error(err)
-	// }
-
-	req := client.NewGetDailyFinancialSummaryRequest()
-	req.Parameters.PartnerCode = client.PartnerCode()
-	req.Parameters.HotelCode = client.HotelCode()
-	req.Parameters.PartnerToken = client.PartnerToken()
-	req.Body.BusinessDate = "2024-10-01"
+	req := client.NewMMESRequest()
 	resp, err := req.Do()
-	if err != nil {
-		t.Error(err)
+	if err == nil {
+		t.Errorf("TestMMESRequest should return an error")
 	}
 
 	b, _ := json.MarshalIndent(resp, "", "  ")

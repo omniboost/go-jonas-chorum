@@ -1,13 +1,13 @@
 package jonas_chorum
 
-type RequestHeader struct {
+type JCHeader struct {
 	BucketType    string `xml:"BucketType"`
 	APIType       string `xml:"APIType"`
 	APIVersion    string `xml:"APIVersion"`
 	SecurityToken string `xml:"SecurityToken"`
 }
 
-type RequestParameters struct {
+type JCParameters struct {
 	// A unique code for the partner system
 	// Provided by Jonas Chorum
 	PartnerCode string `xml:"PartnerCode"`
@@ -21,6 +21,8 @@ type RequestParameters struct {
 	// Provided by Jonas Chorum
 	PartnerToken string `xml:"PartnerToken"`
 	EchoToken    string `xml:"EchoToken,omitempty"`
+
+	Error string `xml:"Error"`
 }
 
 // <!DOCTYPE MsiXmlBucket []>

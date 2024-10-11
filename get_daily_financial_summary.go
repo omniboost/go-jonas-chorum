@@ -1,12 +1,7 @@
 package jonas_chorum
 
 import (
-	"bytes"
-	"compress/gzip"
-	"encoding/base64"
 	"encoding/xml"
-	"io"
-	"log"
 
 	"github.com/pkg/errors"
 )
@@ -15,7 +10,7 @@ func (c *Client) NewGetDailyFinancialSummaryRequest() GetDailyFinancialSummaryRe
 	return GetDailyFinancialSummaryRequest{
 		client: c,
 
-		Header: RequestHeader{
+		Header: JCHeader{
 			BucketType: "GetDailyFinancialSummaryRQ",
 			APIType:    "APIType",
 			APIVersion: "1.0",
@@ -26,46 +21,84 @@ func (c *Client) NewGetDailyFinancialSummaryRequest() GetDailyFinancialSummaryRe
 type GetDailyFinancialSummaryRequest struct {
 	client *Client
 
-	XMLName    xml.Name          `xml:"Content"`
-	Header     RequestHeader     `xml:"Header"`
-	Parameters RequestParameters `xml:"Parameters"`
+	XMLName    xml.Name     `xml:"Content"`
+	Header     JCHeader     `xml:"Header"`
+	Parameters JCParameters `xml:"Parameters"`
 	Body       struct {
 		BusinessDate string `xml:"BusinessDate"`
 	}
 }
 
 func (r GetDailyFinancialSummaryRequest) Do() (GetDailyFinancialSummaryResponseBody, error) {
-	body := GetDailyFinancialSummaryResponseBody{}
+	responseBody := GetDailyFinancialSummaryResponseBody{}
 
+	// setup underlying soap request
 	soapAction := r.client.NewMMESRequest()
 	soapActionBody := soapAction.RequestBody()
 	soapActionBody.TheRequest.Contents = r
 
+	// execute soap request
 	resp, err := soapAction.Do()
 	if err != nil {
-		return body, errors.WithStack(err)
+		return responseBody, errors.WithStack(err)
 	}
 
-	// error handling...
-	// xml decode into struct
-
-	// base64decode
-	b, err := base64.StdEncoding.DecodeString(resp.MMESResult)
+	// use inner body of underlying soap response as our response body
+	reader, err := resp.MMESResult.Decode()
 	if err != nil {
-		return body, errors.WithStack(err)
+		return responseBody, errors.WithStack(err)
 	}
 
-	// gzip decode
-	buf := bytes.NewBuffer(b)
-	reader, err := gzip.NewReader(buf)
+	// bodyFailure is already checked in underlying soap request (MMESRequest)
+	// so only check for wanted response body
+	err = r.client.Unmarshal(reader, []any{&responseBody}, []any{})
 	if err != nil {
-		return body, errors.WithStack(err)
+		return responseBody, errors.WithStack(err)
 	}
 
-	b, err = io.ReadAll(reader)
-	log.Println(err)
-	log.Fatal(string(b))
-	return body, nil
+	// else everything should be fine
+	return responseBody, nil
 }
 
-type GetDailyFinancialSummaryResponseBody struct{}
+type GetDailyFinancialSummaryResponseBody struct {
+	XMLName xml.Name `xml:"Content"`
+	Header  struct {
+		BucketType    string `xml:"BucketType"`
+		APIType       string `xml:"APIType"`
+		APIVersion    string `xml:"APIVersion"`
+		SecurityToken string `xml:"SecurityToken"`
+		Internal      string `xml:"Internal"`
+		CustomDataA   string `xml:"CustomDataA"`
+		CustomDataB   string `xml:"CustomDataB"`
+		CustomDataC   string `xml:"CustomDataC"`
+		CustomDataD   string `xml:"CustomDataD"`
+	} `xml:"Header"`
+	Parameters struct {
+		HotelCode    string `xml:"HotelCode"`
+		PartnerCode  string `xml:"PartnerCode"`
+		EchoToken    string `xml:"EchoToken"`
+		PartnerToken string `xml:"PartnerToken"`
+	} `xml:"Parameters"`
+	Body struct {
+		BusinessDate          string `xml:"BusinessDate"`
+		DepartmentCodeAmounts struct {
+			DepartmentCodeAmount []struct {
+				DepartmentCode string `xml:"DepartmentCode"`
+				Description    string `xml:"Description"`
+				GLAccount      string `xml:"GLAccount"`
+				Amount         string `xml:"Amount"`
+				CreditDebit    string `xml:"CreditDebit"`
+				PostingType    string `xml:"PostingType"`
+			} `xml:"DepartmentCodeAmount"`
+		} `xml:"DepartmentCodeAmounts"`
+		LedgerAmounts struct {
+			LedgerAmount []struct {
+				LedgerCode  string `xml:"LedgerCode"`
+				Description string `xml:"Description"`
+				GLAccount   string `xml:"GLAccount"`
+				Amount      string `xml:"Amount"`
+			} `xml:"LedgerAmount"`
+		} `xml:"LedgerAmounts"`
+		Status string `xml:"Status"`
+	} `xml:"Body"`
+}
