@@ -11,7 +11,7 @@ func (c *Client) NewGetDailyTransactionsRequest() GetDailyTransactionsRequest {
 		client: c,
 
 		Header: JCHeader{
-			BucketType: "GetDailyFinancialSummaryRQ",
+			BucketType: "GetDailyTransactionsRQ",
 			APIType:    "APIType",
 			APIVersion: "1.0",
 		},

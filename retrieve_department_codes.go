@@ -11,7 +11,7 @@ func (c *Client) NewRetrieveDepartmentCodesRequest() RetrieveDepartmentCodesRequ
 		client: c,
 
 		Header: JCHeader{
-			BucketType: "GetDailyFinancialSummaryRQ",
+			BucketType: "RetrieveDepartmentCodesRQ",
 			APIType:    "APIType",
 			APIVersion: "1.0",
 		},
