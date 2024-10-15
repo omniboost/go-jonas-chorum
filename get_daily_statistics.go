@@ -81,24 +81,42 @@ type GetDailyStatisticsResponseBody struct {
 	} `xml:"Parameters"`
 	Body struct {
 		BusinessDate          string `xml:"BusinessDate"`
-		DepartmentCodeAmounts struct {
-			DepartmentCodeAmount []struct {
-				DepartmentCode string `xml:"DepartmentCode"`
-				Description    string `xml:"Description"`
-				GLAccount      string `xml:"GLAccount"`
-				Amount         string `xml:"Amount"`
-				CreditDebit    string `xml:"CreditDebit"`
-				PostingType    string `xml:"PostingType"`
-			} `xml:"DepartmentCodeAmount"`
-		} `xml:"DepartmentCodeAmounts"`
-		LedgerAmounts struct {
-			LedgerAmount []struct {
-				LedgerCode  string `xml:"LedgerCode"`
-				Description string `xml:"Description"`
-				GLAccount   string `xml:"GLAccount"`
-				Amount      string `xml:"Amount"`
-			} `xml:"LedgerAmount"`
-		} `xml:"LedgerAmounts"`
-		Status string `xml:"Status"`
+		NetRoomRevenue        string `xml:"NetRoomRevenue"`
+		NetOtherRevenue       string `xml:"NetOtherRevenue"`
+		NetTotalRevenue       string `xml:"NetTotalRevenue"`
+		TotalRooms            string `xml:"TotalRooms"`
+		VacantRooms           string `xml:"VacantRooms"`
+		TotalOccupiedRooms    string `xml:"TotalOccupiedRooms"`
+		GroupRoomsOccupied    string `xml:"GroupRoomsOccupied"`
+		OOORooms              string `xml:"OOORooms"`
+		DayUseRooms           string `xml:"DayUseRooms"`
+		GroupRoomsNotPickedUp string `xml:"GroupRoomsNotPickedUp"`
+		Arrivals              string `xml:"Arrivals"`
+		GroupArrivals         string `xml:"GroupArrivals"`
+		Departures            string `xml:"Departures"`
+		GroupDepartures       string `xml:"GroupDepartures"`
+		WalkInArrivals        string `xml:"WalkInArrivals"`
+		CompRooms             string `xml:"CompRooms"`
+		NoShows               string `xml:"NoShows"`
+		AverageLOS            string `xml:"AverageLOS"`
+		AdultGuestCount       string `xml:"AdultGuestCount"`
+		ChildOverCount        string `xml:"ChildOverCount"`
+		ChildUnderCount       string `xml:"ChildUnderCount"`
+		RoomsSold             string `xml:"RoomsSold"`
+		Occupancy             string `xml:"Occupancy"`
+		OccupancyWithoutOOO   string `xml:"OccupancyWithoutOOO"`
+		ESOC                  string `xml:"ESOC"`
+		NetADR                string `xml:"NetADR"`
+		NetAWR                string `xml:"NetAWR"`
+		GrossADR              string `xml:"GrossADR"`
+		GrossAWR              string `xml:"GrossAWR"`
+		NetADRWithComps       string `xml:"NetADRWithComps"`
+		GrossADRWithComps     string `xml:"GrossADRWithComps"`
+		NetRevPAR             string `xml:"NetRevPAR"`
+		NetRevPAW             string `xml:"NetRevPAW"`
+		GrossRevPAR           string `xml:"GrossRevPAR"`
+		GrossRevPAW           string `xml:"GrossRevPAW"`
+		NetFBRevenue          string `xml:"NetFBRevenue"`
+		AverageBookingWindow  string `xml:"AverageBookingWindow"`
 	} `xml:"Body"`
 }

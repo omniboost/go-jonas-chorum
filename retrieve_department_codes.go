@@ -80,25 +80,19 @@ type RetrieveDepartmentCodesResponseBody struct {
 		PartnerToken string `xml:"PartnerToken"`
 	} `xml:"Parameters"`
 	Body struct {
-		BusinessDate          string `xml:"BusinessDate"`
-		DepartmentCodeAmounts struct {
-			DepartmentCodeAmount []struct {
-				DepartmentCode string `xml:"DepartmentCode"`
-				Description    string `xml:"Description"`
-				GLAccount      string `xml:"GLAccount"`
-				Amount         string `xml:"Amount"`
-				CreditDebit    string `xml:"CreditDebit"`
-				PostingType    string `xml:"PostingType"`
-			} `xml:"DepartmentCodeAmount"`
-		} `xml:"DepartmentCodeAmounts"`
-		LedgerAmounts struct {
-			LedgerAmount []struct {
-				LedgerCode  string `xml:"LedgerCode"`
-				Description string `xml:"Description"`
-				GLAccount   string `xml:"GLAccount"`
-				Amount      string `xml:"Amount"`
-			} `xml:"LedgerAmount"`
-		} `xml:"LedgerAmounts"`
-		Status string `xml:"Status"`
+		DepartmentCodes struct {
+			DepartmentCode []struct {
+				Code                 string `xml:"Code"`
+				Description          string `xml:"Description"`
+				GeneralLedgerAccount string `xml:"GeneralLedgerAccount"`
+				Type                 string `xml:"Type"`
+				TaxCodes             []struct {
+					TaxCode struct {
+						Code        string `xml:"Code"`
+						IsInculsive string `xml:"IsInculsive"`
+					} `xml:"TaxCode"`
+				} `xml:"TaxCodes"`
+			} `xml:"DepartmentCode"`
+		} `xml:"DepartmentCodes"`
 	} `xml:"Body"`
 }
