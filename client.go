@@ -394,6 +394,22 @@ func CheckResponse(r *http.Response) error {
 //   </soap:Body>
 // </soap:Envelope>
 
+type SoapErrorResponse struct {
+	XMLName xml.Name `xml:"Content"`
+	Body    struct {
+		Status           string `xml:"Status"`
+		ErrorCode        string `xml:"ErrorCode"`
+		ErrorDescription string `xml:"ErrorDescription"`
+	} `xml:"Body"`
+}
+
+func (e SoapErrorResponse) Error() string {
+	if e.Body.Status == "Error" || e.Body.ErrorCode != "" {
+		return fmt.Sprintf("Error %s: %s", e.Body.ErrorCode, e.Body.ErrorDescription)
+	}
+	return ""
+}
+
 type SoapError struct {
 	XMLName xml.Name `xml:"Envelope"`
 	Body    struct {
