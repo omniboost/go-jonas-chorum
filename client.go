@@ -20,7 +20,7 @@ import (
 
 const (
 	libraryVersion = "0.0.1"
-	userAgent      = "go-jonas_chorum/" + libraryVersion
+	userAgent      = "go-jonas-chorum/" + libraryVersion
 	mediaType      = "text/xml"
 	charset        = "utf-8"
 )

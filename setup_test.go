@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	jonas_chorum "github.com/omniboost/go-jonas_chorum"
+	jonas_chorum "github.com/omniboost/go-jonas-chorum"
 )
 
 var (

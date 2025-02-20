@@ -1,4 +1,4 @@
-module github.com/omniboost/go-jonas_chorum
+module github.com/omniboost/go-jonas-chorum
 
 go 1.22
 

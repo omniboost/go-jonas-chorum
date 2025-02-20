@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/omniboost/go-jonas_chorum/utils"
+	"github.com/omniboost/go-jonas-chorum/utils"
 	"github.com/pkg/errors"
 )
 
