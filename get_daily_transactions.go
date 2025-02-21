@@ -15,6 +15,11 @@ func (c *Client) NewGetDailyTransactionsRequest() GetDailyTransactionsRequest {
 			APIType:    "APIType",
 			APIVersion: "1.0",
 		},
+		Parameters: JCParameters{
+			PartnerCode:  c.PartnerCode(),
+			HotelCode:    c.HotelCode(),
+			PartnerToken: c.PartnerToken(),
+		},
 	}
 }
 

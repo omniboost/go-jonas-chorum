@@ -11,7 +11,7 @@ func TestGetDailyFinancialSummary(t *testing.T) {
 	req.Parameters.PartnerCode = client.PartnerCode()
 	req.Parameters.HotelCode = client.HotelCode()
 	req.Parameters.PartnerToken = client.PartnerToken()
-	req.Body.BusinessDate = "2024-10-01"
+	req.Body.BusinessDate = "03-10-2022"
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)
