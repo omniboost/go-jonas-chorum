@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"testing"
+	"time"
+
+	jonas_chorum "github.com/omniboost/go-jonas-chorum"
 )
 
 func TestRetrieveDepartmentCodes(t *testing.T) {
@@ -11,7 +14,7 @@ func TestRetrieveDepartmentCodes(t *testing.T) {
 	req.Parameters.PartnerCode = client.PartnerCode()
 	req.Parameters.HotelCode = client.HotelCode()
 	req.Parameters.PartnerToken = client.PartnerToken()
-	req.Body.BusinessDate = "2024-10-01"
+	req.Body.BusinessDate = jonas_chorum.Date{time.Date(2022, 10, 03, 0, 0, 0, 0, time.UTC)}
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)

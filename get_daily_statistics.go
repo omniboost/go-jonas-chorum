@@ -30,7 +30,7 @@ type GetDailyStatisticsRequest struct {
 	Header     JCHeader     `xml:"Header"`
 	Parameters JCParameters `xml:"Parameters"`
 	Body       struct {
-		BusinessDate string `xml:"BusinessDate"`
+		BusinessDate Date `xml:"BusinessDate"`
 	}
 }
 

@@ -40,7 +40,7 @@ func (t *Date) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 }
 
 func (t Date) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	layout := "2006-01-02"
+	layout := "02-01-2006"
 	s := t.Format(layout)
 	return e.EncodeElement(s, start)
 }
