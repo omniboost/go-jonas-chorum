@@ -404,8 +404,24 @@ type SoapErrorResponse struct {
 }
 
 func (e SoapErrorResponse) Error() string {
-	if e.Body.Status == "Error" || e.Body.ErrorCode != "" {
+	if e.Body.Status == "Error" && e.Body.ErrorCode != "" {
 		return fmt.Sprintf("Error %s: %s", e.Body.ErrorCode, e.Body.ErrorDescription)
+	}
+	return ""
+}
+
+type SoapErrorStatusResponse struct {
+	XMLName xml.Name `xml:"Content"`
+	Body    struct {
+		Status        string `xml:"Status"`
+		StatusMessage string `xml:"StatusMessage"`
+		ServiceName   string `xml:"ServiceName"`
+	} `xml:"Body"`
+}
+
+func (e SoapErrorStatusResponse) Error() string {
+	if e.Body.Status == "Error" && e.Body.StatusMessage != "" {
+		return fmt.Sprintf("Error %s: %s", e.Body.ServiceName, e.Body.StatusMessage)
 	}
 	return ""
 }

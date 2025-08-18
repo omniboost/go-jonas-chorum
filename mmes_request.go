@@ -223,7 +223,8 @@ func (r *MMESRequest) Do() (MMESRequestResponseBody, error) {
 
 	bodyFailure := BodyFailure{}
 	soapErrorResponse := SoapErrorResponse{}
-	err = r.client.Unmarshal(reader, []any{}, []any{&bodyFailure, &soapErrorResponse})
+	soapErrorStatusResponse := SoapErrorStatusResponse{}
+	err = r.client.Unmarshal(reader, []any{}, []any{&bodyFailure, &soapErrorResponse, &soapErrorStatusResponse})
 
 	// if bodyFailure has an error: use that for error return
 	if bodyFailure.Error() != "" {
@@ -232,6 +233,10 @@ func (r *MMESRequest) Do() (MMESRequestResponseBody, error) {
 
 	if soapErrorResponse.Error() != "" {
 		return *responseBody, errors.WithStack(soapErrorResponse)
+	}
+
+	if soapErrorStatusResponse.Error() != "" {
+		return *responseBody, errors.WithStack(soapErrorStatusResponse)
 	}
 
 	// if the unmarshalling returned an error, return that one
