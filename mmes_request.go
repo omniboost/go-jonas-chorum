@@ -5,7 +5,6 @@ import (
 	"compress/gzip"
 	"encoding/base64"
 	"encoding/xml"
-	"log"
 	"net/http"
 	"net/url"
 
@@ -211,7 +210,6 @@ func (r *MMESRequest) Do() (MMESRequestResponseBody, error) {
 	responseBody := r.NewResponseBody()
 	_, err = r.client.Do(req, responseBody)
 	if err != nil {
-		log.Print("1")
 		return *responseBody, errors.WithStack(err)
 	}
 
