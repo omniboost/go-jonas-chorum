@@ -28,12 +28,21 @@ func (t *Date) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	nt, err := time.Parse(layout, s)
 	if err == nil {
 		*t = Date{Time: nt}
+		return nil
 	}
 
 	layout = "2006-01-02T15:04:05"
 	nt, err = time.Parse(layout, s)
 	if err == nil {
 		*t = Date{Time: nt}
+		return nil
+	}
+
+	layout = "01/02/2006"
+	nt, err = time.Parse(layout, s)
+	if err == nil {
+		*t = Date{Time: nt}
+		return nil
 	}
 
 	return err
