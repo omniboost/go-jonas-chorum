@@ -85,27 +85,27 @@ type GetDailyTransactionsResponseBody struct {
 		PartnerToken string `xml:"PartnerToken"`
 	} `xml:"Parameters"`
 	Body struct {
-		BusinessDate string `xml:"BusinessDate"`
+		BusinessDate Date `xml:"BusinessDate"`
 		Transactions struct {
 			Transaction []struct {
-				AccountType             string `xml:"AccountType"`
-				FolioId                 string `xml:"FolioId"`
-				PMSConfirmationNumber   string `xml:"PMSConfirmationNumber"`
-				GroupConfirmationNumber string `xml:"GroupConfirmationNumber"`
-				MemberNumber            string `xml:"MemberNumber"`
-				SponsorMemberNumber     string `xml:"SponsorMemberNumber"`
-				TransactionID           string `xml:"TransactionID"`
-				Description             string `xml:"Description"`
-				DepartmentCode          string `xml:"DepartmentCode"`
-				GLAccountNumber         string `xml:"GLAccountNumber"`
-				Amount                  string `xml:"Amount"`
-				CreditDebit             string `xml:"CreditDebit"`
-				AcctgGroup              string `xml:"AcctgGroup"`
-				PostingType             string `xml:"PostingType"`
-				LinkedTransactionID     string `xml:"LinkedTransactionID"`
-				RoomNumber              string `xml:"RoomNumber"`
-				GuestFirstName          string `xml:"GuestFirstName"`
-				GuestLastName           string `xml:"GuestLastName"`
+				AccountType             string  `xml:"AccountType"`
+				FolioId                 int     `xml:"FolioId"`
+				PMSConfirmationNumber   int     `xml:"PMSConfirmationNumber"`
+				GroupConfirmationNumber int     `xml:"GroupConfirmationNumber"`
+				MemberNumber            string  `xml:"MemberNumber"`
+				SponsorMemberNumber     string  `xml:"SponsorMemberNumber"`
+				TransactionID           string  `xml:"TransactionID"`
+				Description             string  `xml:"Description"`
+				DepartmentCode          string  `xml:"DepartmentCode"`
+				GLAccountNumber         *int    `xml:"GLAccountNumber"`
+				Amount                  float64 `xml:"Amount"`
+				CreditDebit             string  `xml:"CreditDebit"`
+				AcctgGroup              string  `xml:"AcctgGroup"`
+				PostingType             string  `xml:"PostingType"`
+				LinkedTransactionID     string  `xml:"LinkedTransactionID"`
+				RoomNumber              int     `xml:"RoomNumber"`
+				GuestFirstName          string  `xml:"GuestFirstName"`
+				GuestLastName           string  `xml:"GuestLastName"`
 			} `xml:"Transaction"`
 		} `xml:"Transactions"`
 	} `xml:"Body"`
