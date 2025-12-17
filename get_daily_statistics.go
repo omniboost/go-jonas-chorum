@@ -84,44 +84,5 @@ type GetDailyStatisticsResponseBody struct {
 		EchoToken    string `xml:"EchoToken"`
 		PartnerToken string `xml:"PartnerToken"`
 	} `xml:"Parameters"`
-	Body struct {
-		BusinessDate          Date    `xml:"BusinessDate"`
-		NetRoomRevenue        float64 `xml:"NetRoomRevenue"`
-		NetOtherRevenue       float64 `xml:"NetOtherRevenue"`
-		NetTotalRevenue       float64 `xml:"NetTotalRevenue"`
-		TotalRooms            int     `xml:"TotalRooms"`
-		VacantRooms           int     `xml:"VacantRooms"`
-		TotalOccupiedRooms    int     `xml:"TotalOccupiedRooms"`
-		GroupRoomsOccupied    int     `xml:"GroupRoomsOccupied"`
-		OOORooms              int     `xml:"OOORooms"`
-		DayUseRooms           int     `xml:"DayUseRooms"`
-		GroupRoomsNotPickedUp int     `xml:"GroupRoomsNotPickedUp"`
-		Arrivals              int     `xml:"Arrivals"`
-		GroupArrivals         int     `xml:"GroupArrivals"`
-		Departures            int     `xml:"Departures"`
-		GroupDepartures       int     `xml:"GroupDepartures"`
-		WalkInArrivals        int     `xml:"WalkInArrivals"`
-		CompRooms             int     `xml:"CompRooms"`
-		NoShows               int     `xml:"NoShows"`
-		AverageLOS            int     `xml:"AverageLOS"`
-		AdultGuestCount       int     `xml:"AdultGuestCount"`
-		ChildOverCount        int     `xml:"ChildOverCount"`
-		ChildUnderCount       int     `xml:"ChildUnderCount"`
-		RoomsSold             int     `xml:"RoomsSold"`
-		Occupancy             float64 `xml:"Occupancy"`
-		OccupancyWithoutOOO   float64 `xml:"OccupancyWithoutOOO"`
-		ESOC                  float64 `xml:"ESOC"`
-		NetADR                float64 `xml:"NetADR"`
-		NetAWR                float64 `xml:"NetAWR"`
-		GrossADR              float64 `xml:"GrossADR"`
-		GrossAWR              float64 `xml:"GrossAWR"`
-		NetADRWithComps       float64 `xml:"NetADRWithComps"`
-		GrossADRWithComps     float64 `xml:"GrossADRWithComps"`
-		NetRevPAR             float64 `xml:"NetRevPAR"`
-		NetRevPAW             float64 `xml:"NetRevPAW"`
-		GrossRevPAR           float64 `xml:"GrossRevPAR"`
-		GrossRevPAW           float64 `xml:"GrossRevPAW"`
-		NetFBRevenue          float64 `xml:"NetFBRevenue"`
-		AverageBookingWindow  float64 `xml:"AverageBookingWindow"`
-	} `xml:"Body"`
+	Body DailyStatistics `xml:"Body"`
 }
