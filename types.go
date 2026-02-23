@@ -132,3 +132,28 @@ type DailyTransactions struct {
 		GuestLastName           string  `xml:"GuestLastName"`
 	} `xml:"Transactions>Transaction"`
 }
+
+type DailyFinancialsByMarketSegment struct {
+	BusinessDate          string `xml:"BusinessDate"`
+	DepartmentCodeAmounts struct {
+		DepartmentCodeAmount []struct {
+			DepartmentCode string  `xml:"DepartmentCode"`
+			Description    string  `xml:"Description"`
+			GLAccount      int     `xml:"GLAccount"`
+			Amount         float64 `xml:"Amount"`
+			CreditDebit    string  `xml:"CreditDebit"`
+			PostingType    string  `xml:"PostingType"`
+			MarketSegment  string  `xml:"MarketSegment"`
+		} `xml:"DepartmentCodeAmount"`
+	} `xml:"DepartmentCodeAmounts"`
+	LedgerAmounts struct {
+		LedgerAmount []struct {
+			LedgerCode  string  `xml:"LedgerCode"`
+			Description string  `xml:"Description"`
+			GLAccount   int     `xml:"GLAccount"`
+			Amount      float64 `xml:"Amount"`
+		} `xml:"LedgerAmount"`
+	} `xml:"LedgerAmounts"`
+	Status     string `xml:"Status"`
+	StatusNote string `xml:"StatusNote"`
+}
